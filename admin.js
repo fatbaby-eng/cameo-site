@@ -170,19 +170,154 @@ window.deleteItem = async (table, id) => {
 };
 
 
-// ─── MANAGE COPY ───
+// ─── FOOLPROOF COPY CMS ───
+// Default text if empty
+const defaultAboutBody = `Cameo Holliday discovered his voice at just 12 years old and began writing music by 16, quickly developing a gift for transforming raw human emotion into melody. A graduate of Bristol Studios in Boston, MA, with an associate's degree in Audio Engineering, Holliday set out with a clear mission: to leave a lasting imprint on the music industry.
+
+A natural creative, Holliday moves seamlessly between writing for himself and crafting records for other artists. As a self-producing artist building in a competitive, independent market, he brings both vision and discipline to every project. For him, music is more than passion it's a way of life. "I live to create, produce, and bring my sound wherever it's needed."
+
+Blending genres with ease, Holliday's sound is best described as charismatic, soulful, and undeniably sensual an authentic reflection of his artistry and presence.
+
+Beyond the studio, Holliday is a seasoned vocalist and performer with an extensive catalog. His discography includes projects such as Rayain, Finally (his solo debut), The Lona Boi Mixtape, Emotions, The EarCrack Compilation, and The Gangsta & The Gentleman. He has also released a series of EPs, including Rose Petals & Lingerie, Stilettos & Black Lace, I'm Still Here, Emotions V2, Brown Liquor Music, and his latest project, Bliss.
+
+With over 6,500 physical copies sold independently and a growing presence across streaming platforms, Holliday continues to expand his reach and connect with new audiences. His latest contemporary R&B project, Bliss, showcases smooth harmonies, refined tones, and a matured sound that signals the evolution of his artistry.
+
+This is only the beginning. Cameo Holliday is building a legacy one record at a time.`;
+
+const defaultMusicBody = `Charismatic, soulful, and undeniably sensual. Cameo Holliday blends R&B, Hip-Hop, and soul into something cinematic and deeply personal. A Bristol Studios graduate with over 6,500 copies sold independently.
+
+Stream everywhere. Buy direct downloads for the highest quality experience.`;
+
+// DOM Elements
+const fAboutHead = document.getElementById('f-about-head');
+const fAboutBody = document.getElementById('f-about-body');
+const fMusicHead = document.getElementById('f-music-head');
+const fMusicBody = document.getElementById('f-music-body');
+
+const stat1Num = document.getElementById('f-stat1-num');
+const stat1Lbl = document.getElementById('f-stat1-lbl');
+const stat2Num = document.getElementById('f-stat2-num');
+const stat2Lbl = document.getElementById('f-stat2-lbl');
+const stat3Num = document.getElementById('f-stat3-num');
+const stat3Lbl = document.getElementById('f-stat3-lbl');
+
+const prevAbout = document.getElementById('prev-about');
+const prevMusic = document.getElementById('prev-music');
+
+// Toast logic
+let toastTimeout;
+function showToast() {
+  const toast = document.getElementById('toast-limit');
+  toast.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+// Bind Inputs
+function bindInput(inputEl, countElId) {
+  const countEl = document.getElementById(countElId);
+  const max = inputEl.getAttribute('maxlength');
+  
+  const update = () => {
+    const len = inputEl.value.length;
+    countEl.textContent = len + ' / ' + max;
+    if (len >= max) {
+      countEl.classList.add('limit-reached');
+      if (len === parseInt(max)) showToast();
+    } else {
+      countEl.classList.remove('limit-reached');
+    }
+    renderPreviews();
+  };
+  
+  inputEl.addEventListener('input', update);
+  inputEl.addEventListener('keyup', update);
+}
+
+function renderPreviews() {
+  // About
+  const aHead = fAboutHead.value || 'Headline';
+  const aBodyLines = fAboutBody.value ? fAboutBody.value.split('\n\n') : [];
+  const aBodyHtml = aBodyLines.map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
+  
+  prevAbout.innerHTML = `
+    <h3>${aHead}</h3>
+    ${aBodyHtml}
+    <div style="display:flex; gap:30px; margin-top:30px; border-top:1px solid var(--silver-faint); padding-top:20px;">
+      <div>
+        <div style="font-family:var(--font-heading); font-size:32px; color:var(--red);">${stat1Num.value || '0'}</div>
+        <div style="font-size:11px; text-transform:uppercase; color:var(--silver-dim); letter-spacing:1px;">${stat1Lbl.value || 'Label'}</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-heading); font-size:32px; color:var(--red);">${stat2Num.value || '0'}</div>
+        <div style="font-size:11px; text-transform:uppercase; color:var(--silver-dim); letter-spacing:1px;">${stat2Lbl.value || 'Label'}</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-heading); font-size:32px; color:var(--red);">${stat3Num.value || '0'}</div>
+        <div style="font-size:11px; text-transform:uppercase; color:var(--silver-dim); letter-spacing:1px;">${stat3Lbl.value || 'Label'}</div>
+      </div>
+    </div>
+  `;
+  
+  // Music
+  const mHead = fMusicHead.value || 'Headline';
+  const mBodyLines = fMusicBody.value ? fMusicBody.value.split('\n\n') : [];
+  const mBodyHtml = mBodyLines.map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
+  
+  prevMusic.innerHTML = `
+    <h3>${mHead}</h3>
+    ${mBodyHtml}
+    <div class="streaming-links-preview">
+      <div class="streaming-link-btn">Spotify</div>
+      <div class="streaming-link-btn">Apple Music</div>
+      <div class="streaming-link-btn">YouTube</div>
+    </div>
+  `;
+}
+
+// Set up
+setTimeout(() => {
+  bindInput(fAboutHead, 'c-about-head');
+  bindInput(fAboutBody, 'c-about-body');
+  bindInput(fMusicHead, 'c-music-head');
+  bindInput(fMusicBody, 'c-music-body');
+  
+  [stat1Num, stat1Lbl, stat2Num, stat2Lbl, stat3Num, stat3Lbl].forEach(el => {
+    el.addEventListener('input', renderPreviews);
+  });
+}, 100);
+
 async function loadCopy() {
     const { data, error } = await supabase.from('site_content').select('*');
     if (error) { console.error('Error loading copy:', error); return; }
     
+    // Set defaults first
+    fAboutBody.value = defaultAboutBody;
+    fMusicBody.value = defaultMusicBody;
+    stat1Num.value = "6,500+"; stat1Lbl.value = "Copies Sold";
+    stat2Num.value = "12+"; stat2Lbl.value = "Projects Released";
+    stat3Num.value = "4"; stat3Lbl.value = "Platforms";
+    
+    // Override with DB
     data.forEach(item => {
-        if (item.id === 'about_html' && item.content) {
-            document.getElementById('live-editor').innerHTML = item.content;
-        }
-        if (item.id === 'music_html' && item.content) {
-            document.getElementById('live-editor-music').innerHTML = item.content;
-        }
+        if (item.id === 'about_head') fAboutHead.value = item.content;
+        if (item.id === 'about_body') fAboutBody.value = item.content;
+        if (item.id === 'music_head') fMusicHead.value = item.content;
+        if (item.id === 'music_body') fMusicBody.value = item.content;
+        if (item.id === 'stat1_num') stat1Num.value = item.content;
+        if (item.id === 'stat1_lbl') stat1Lbl.value = item.content;
+        if (item.id === 'stat2_num') stat2Num.value = item.content;
+        if (item.id === 'stat2_lbl') stat2Lbl.value = item.content;
+        if (item.id === 'stat3_num') stat3Num.value = item.content;
+        if (item.id === 'stat3_lbl') stat3Lbl.value = item.content;
     });
+    
+    setTimeout(() => {
+      fAboutHead.dispatchEvent(new Event('input'));
+      fAboutBody.dispatchEvent(new Event('input'));
+      fMusicHead.dispatchEvent(new Event('input'));
+      fMusicBody.dispatchEvent(new Event('input'));
+    }, 200);
 }
 
 document.getElementById('publish-copy-btn').addEventListener('click', async () => {
@@ -191,25 +326,30 @@ document.getElementById('publish-copy-btn').addEventListener('click', async () =
     btn.disabled = true;
     btn.textContent = 'Publishing...';
     
-    
-    
-    const aboutContent = document.getElementById('live-editor').innerHTML;
-    const musicContent = document.getElementById('live-editor-music').innerHTML;
     const updates = [
-        { id: 'about_html', content: aboutContent },
-        { id: 'music_html', content: musicContent }
+        { id: 'about_head', content: fAboutHead.value },
+        { id: 'about_body', content: fAboutBody.value },
+        { id: 'music_head', content: fMusicHead.value },
+        { id: 'music_body', content: fMusicBody.value },
+        { id: 'stat1_num', content: stat1Num.value },
+        { id: 'stat1_lbl', content: stat1Lbl.value },
+        { id: 'stat2_num', content: stat2Num.value },
+        { id: 'stat2_lbl', content: stat2Lbl.value },
+        { id: 'stat3_num', content: stat3Num.value },
+        { id: 'stat3_lbl', content: stat3Lbl.value }
     ];
+    
     const { error } = await supabase.from('site_content').upsert(updates);
     
     btn.disabled = false;
-    btn.textContent = 'Publish to Live Site';
+    btn.textContent = 'Publish Changes';
     
     if (error) {
         msg.className = 'error';
         msg.textContent = error.message;
     } else {
         msg.className = 'success';
-        msg.textContent = 'Published successfully! The live site is now updated.';
+        msg.textContent = 'Published! The live site is updated.';
         setTimeout(() => msg.textContent = '', 4000);
     }
 });

@@ -1727,7 +1727,7 @@
 <script src="/chat/files/todd-chat-widget.js?v=3" defer data-api-url="https://toddboswell.com/api/chat" data-icon-url="/images/chat-fab-kewpie-icon.png?v=2"></script>
 
 <script type="module">
-  // ─── DYNAMIC COPY LOADER (SUPABASE) ───
+    // ─── DYNAMIC COPY LOADER (SUPABASE) FOOLPROOF ───
   import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
 
   fetch(SUPABASE_URL + '/rest/v1/site_content?select=*', {
@@ -1739,25 +1739,53 @@
   .then(r => r.json())
   .then(data => {
     if (!Array.isArray(data)) return;
-    data.forEach(item => {
-      if (item.id === 'music_html' && item.content) {
-        const el = document.querySelector('.music-info');
-        if (el) {
-          el.innerHTML = item.content;
-          el.removeAttribute('contenteditable');
-          el.querySelectorAll('[contenteditable]').forEach(node => node.removeAttribute('contenteditable'));
-        }
-      }
-      if (item.id === 'about_html' && item.content) {
-        const el = document.querySelector('.about-text');
-        if (el) {
-          el.innerHTML = item.content;
-          // Ensure contenteditable is removed when displayed on the live site
-          el.removeAttribute('contenteditable');
-          el.querySelectorAll('[contenteditable]').forEach(node => node.removeAttribute('contenteditable'));
-        }
-      }
-    });
+    
+    // Map data for easy access
+    const db = {};
+    data.forEach(item => db[item.id] = item.content);
+    
+    // 1. Update About Section
+    const aboutContainer = document.querySelector('.about-text');
+    if (aboutContainer && db.about_head && db.about_body) {
+      // Create HTML from raw text
+      const headHtml = `<h3>${db.about_head}</h3>`;
+      const bodyLines = db.about_body.split('\n\n');
+      const bodyHtml = bodyLines.map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
+      
+      // Preserve the stats container HTML template but update numbers
+      const statsHtml = `
+        <div class="about-stats">
+          <div>
+            <div class="stat-number">${db.stat1_num || '6,500+'}</div>
+            <div class="stat-label">${db.stat1_lbl || 'Copies Sold'}</div>
+          </div>
+          <div>
+            <div class="stat-number">${db.stat2_num || '12+'}</div>
+            <div class="stat-label">${db.stat2_lbl || 'Projects Released'}</div>
+          </div>
+          <div>
+            <div class="stat-number">${db.stat3_num || '4'}</div>
+            <div class="stat-label">${db.stat3_lbl || 'Platforms'}</div>
+          </div>
+        </div>
+      `;
+      
+      aboutContainer.innerHTML = headHtml + bodyHtml + statsHtml;
+    }
+    
+    // 2. Update Music Section
+    const musicContainer = document.querySelector('.music-info');
+    if (musicContainer && db.music_head && db.music_body) {
+      // Preserve existing streaming links HTML so we don't overwrite the SVGs
+      const linksContainer = musicContainer.querySelector('.streaming-links');
+      const linksHtml = linksContainer ? linksContainer.outerHTML : '';
+      
+      const mHeadHtml = `<h3>${db.music_head}</h3>`;
+      const mBodyLines = db.music_body.split('\n\n');
+      const mBodyHtml = mBodyLines.map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
+      
+      musicContainer.innerHTML = mHeadHtml + mBodyHtml + linksHtml;
+    }
   })
   .catch(err => console.error('Error loading dynamic copy:', err));
 </script>

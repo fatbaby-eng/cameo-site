@@ -176,105 +176,131 @@
     
     <!-- COPY TAB -->
     <div class="tab-content" id="tab-copy">
-      <h2>Live Editor: About Section</h2>
-      <p style="color:var(--silver); font-size:14px; margin-bottom:20px;">Edit the text directly in the preview below to word-smith the copy. Click anywhere on the text to start typing. When you're ready, click Publish.</p>
-      
+
       <style>
+        .editor-layout {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 40px;
+          align-items: start;
+        }
+        .editor-form {
+          background: var(--black-card);
+          padding: 20px;
+          border-radius: 8px;
+          border: 1px solid var(--silver-faint);
+        }
         .live-preview {
           border: 1px solid var(--silver-faint);
-          padding: 40px;
+          padding: 30px;
           border-radius: 8px;
           background: var(--black);
-          margin-bottom: 20px;
+          position: sticky;
+          top: 20px;
         }
-        #live-editor {
-          outline: none;
+        .live-preview h3 { font-family: var(--font-heading); font-size: 32px; margin-bottom: 15px; color: var(--white); letter-spacing: 2px; }
+        .live-preview p { color: var(--silver); line-height: 1.8; font-size: 15px; margin-bottom: 12px; }
+        .char-count { font-size: 11px; color: var(--silver-dim); text-align: right; margin-top: 4px; display: block; }
+        .limit-reached { color: var(--red) !important; }
+        
+        .toast {
+          position: fixed;
+          bottom: 30px;
+          left: 50%;
+          transform: translateX(-50%) translateY(100px);
+          background: var(--red);
+          color: white;
+          padding: 12px 24px;
+          border-radius: 30px;
+          font-weight: 500;
+          opacity: 0;
+          transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+          z-index: 10000;
+          box-shadow: 0 4px 15px rgba(196, 30, 58, 0.4);
         }
-        #live-editor:focus {
-          box-shadow: 0 0 0 2px var(--red);
-          border-radius: 4px;
+        .toast.show {
+          transform: translateX(-50%) translateY(0);
+          opacity: 1;
         }
-        #live-editor h3 {
-          font-family: var(--font-heading);
-          font-size: 36px;
-          margin-bottom: 20px;
-          color: var(--white);
-          letter-spacing: 2px;
-        }
-        #live-editor p {
-          color: var(--silver);
-          line-height: 1.8;
-          font-size: 16px;
-          margin-bottom: 16px;
-        }
-        #live-editor .about-stats {
-          display: flex;
-          gap: 40px;
-          margin-top: 40px;
-          border-top: 1px solid var(--silver-faint);
-          padding-top: 30px;
-        }
-        #live-editor .stat-number {
-          font-family: var(--font-heading);
-          font-size: 48px;
-          color: var(--red);
-          line-height: 1;
-        }
-        #live-editor .stat-label {
-          font-size: 13px;
-          text-transform: uppercase;
-          letter-spacing: 2px;
-          color: var(--silver-dim);
-          margin-top: 8px;
-        }
-      </style>
-
-      <div class="live-preview">
-        <div id="live-editor" contenteditable="true">
-          <h3>Who is Cameo Holliday?</h3>
-          <p>Cameo Holliday discovered his voice at just 12 years old and began writing music by 16, quickly developing a gift for transforming raw human emotion into melody. A graduate of Bristol Studios in Boston, MA, with an associate's degree in Audio Engineering, Holliday set out with a clear mission: to leave a lasting imprint on the music industry.</p>
-          <p>A natural creative, Holliday moves seamlessly between writing for himself and crafting records for other artists. As a self-producing artist building in a competitive, independent market, he brings both vision and discipline to every project. For him, music is more than passion it's a way of life. "I live to create, produce, and bring my sound wherever it's needed."</p>
-          <p>Blending genres with ease, Holliday's sound is best described as charismatic, soulful, and undeniably sensual an authentic reflection of his artistry and presence.</p>
-          <p>Beyond the studio, Holliday is a seasoned vocalist and performer with an extensive catalog. His discography includes projects such as <em>Rayain</em>, <em>Finally</em> (his solo debut), <em>The Lona Boi Mixtape</em>, <em>Emotions</em>, <em>The EarCrack Compilation</em>, and <em>The Gangsta & The Gentleman</em>. He has also released a series of EPs, including <em>Rose Petals & Lingerie</em>, <em>Stilettos & Black Lace</em>, <em>I'm Still Here</em>, <em>Emotions V2</em>, <em>Brown Liquor Music</em>, and his latest project, <em>Bliss</em>.</p>
-          <p>With over 6,500 physical copies sold independently and a growing presence across streaming platforms, Holliday continues to expand his reach and connect with new audiences. His latest contemporary R&B project, <em>Bliss</em>, showcases smooth harmonies, refined tones, and a matured sound that signals the evolution of his artistry.</p>
-          <p style="font-style: italic; color: var(--red); margin-top: 8px;">This is only the beginning. Cameo Holliday is building a legacy one record at a time.</p>
-          <div class="about-stats" contenteditable="false">
-            <div contenteditable="true">
-              <div class="stat-number">6,500+</div>
-              <div class="stat-label">Copies Sold</div>
-            </div>
-            <div contenteditable="true">
-              <div class="stat-number">12+</div>
-              <div class="stat-label">Projects Released</div>
-            </div>
-            <div contenteditable="true">
-              <div class="stat-number">4</div>
-              <div class="stat-label">Platforms</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+        
+        .stats-editor { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+        .stats-editor input { margin-bottom: 5px; text-align: center; }
+        
+        /* Streaming Links Preview */
+        .streaming-links-preview { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+        .streaming-link-btn { display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; background: var(--black-elevated); color: var(--white); border-radius: 4px; font-size: 12px; border: 1px solid var(--silver-faint); opacity: 0.6; }
+</style>
       
-      <h2 style="margin-top: 40px;">Live Editor: Music Section</h2>
-      <p style="color:var(--silver); font-size:14px; margin-bottom:20px;">Edit the text directly in the preview below to word-smith the music blurb. The streaming buttons below are locked from editing here.</p>
-
-      <div class="live-preview">
-        <div id="live-editor-music" contenteditable="true">
-          <h3>Bliss — "Incredible"</h3>
-          <p>Charismatic, soulful, and undeniably sensual. Cameo Holliday blends R&B, Hip-Hop, and soul into something cinematic and deeply personal. A Bristol Studios graduate with over 6,500 copies sold independently.</p>
-          <p>Stream everywhere. Buy direct downloads for the highest quality experience.</p>
-          <div class="streaming-links" contenteditable="false">
-            <a href="https://open.spotify.com/artist/2E0iGMKeho77cmTaZ6Jep4" target="_blank" class="streaming-link"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg> Spotify</a>
-            <a href="https://music.apple.com/us/artist/cameo-holliday/470258190" target="_blank" class="streaming-link"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.994 6.124a9.23 9.23 0 0 0-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 0 0-1.877-.726 10.496 10.496 0 0 0-1.564-.15c-.04-.003-.083-.01-.124-.013H5.986c-.152.01-.303.017-.455.026-.747.043-1.49.123-2.193.4-1.336.53-2.3 1.452-2.865 2.78-.192.448-.292.925-.363 1.408-.056.392-.088.785-.1 1.18 0 .032-.007.062-.01.093v12.223c.01.14.017.283.027.424.05.815.154 1.624.497 2.373.65 1.42 1.738 2.353 3.234 2.802.42.127.856.187 1.297.228.468.043.937.065 1.407.07.12.003.236.01.354.01h12.066c.19-.008.38-.016.57-.028.733-.046 1.46-.126 2.15-.396 1.383-.543 2.35-1.467 2.916-2.828.18-.432.276-.886.347-1.347.07-.46.1-.924.113-1.39.003-.1.01-.198.01-.298V6.124zm-4.88 5.83c-.003.147-.01.293-.023.44-.112 1.257-.568 2.377-1.463 3.293-.77.793-1.7 1.292-2.784 1.474-.452.076-.907.096-1.363.044-.522-.06-1.02-.198-1.486-.438a3.036 3.036 0 0 1-1.16-1.02c-.342-.496-.527-1.047-.583-1.644-.08-.83.1-1.6.562-2.3.497-.757 1.18-1.272 2.007-1.59.61-.235 1.246-.375 1.893-.476.426-.067.855-.115 1.284-.164.34-.04.68-.085 1.01-.162.08-.02.17-.043.21-.12.05-.09.04-.2.03-.3-.04-.653-.14-1.07-.37-1.42-.36-.55-.94-.78-1.59-.82-.544-.04-1.06.07-1.53.338-.22.126-.41.288-.56.49-.14.19-.35.28-.58.24l-1.57-.27c-.2-.035-.33-.19-.29-.39.24-1.22.89-2.14 1.95-2.73.79-.44 1.65-.64 2.55-.66.726-.02 1.444.07 2.133.31.964.34 1.67.94 2.1 1.87.24.52.36 1.07.4 1.64.02.29.03.58.03.88v5.42z"/></svg> Apple Music</a>
-            <a href="https://youtube.com/channel/UCRty-UHUYthxB_qeVTanu5A" target="_blank" class="streaming-link"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg> YouTube</a>
-            <a href="#" class="streaming-link"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.012 3.992L8.008 7.996 4.004 3.992 0 7.996 4.004 12l-4.004 4.004 4.004 4.004L8.008 16.004l4.004 4.004 4.004-4.004L12.012 12l4.004-4.004-4.004-4.004zM12.012 14.58l-2.58 2.58-2.58-2.58 2.58-2.58 2.58 2.58zm-2.58-7.74l2.58 2.58-2.58 2.58-2.58-2.58 2.58-2.58z"/></svg> Tidal</a>
+      <h2>Site Copy Manager</h2>
+      <p style="color:var(--silver); font-size:14px; margin-bottom:30px;">Update your text below. The formatting and fonts are locked to prevent breaking the design. Watch the preview to see exactly how it will look.</p>
+      
+      <!-- ABOUT SECTION -->
+      <h3 style="margin-bottom: 15px; color: var(--red);">1. ABOUT SECTION</h3>
+      <div class="editor-layout" style="margin-bottom: 50px;">
+        <div class="editor-form">
+          <div class="form-group">
+            <label>Headline (Max 40 chars)</label>
+            <input type="text" id="f-about-head" maxlength="40" value="Who is Cameo Holliday?">
+            <span class="char-count" id="c-about-head">0 / 40</span>
           </div>
+          <div class="form-group">
+            <label>Biography Text (Max 2500 chars)</label>
+            <p style="font-size: 11px; color: var(--silver-dim); margin-bottom: 8px;">Use double line breaks (Enter twice) to create separate paragraphs.</p>
+            <textarea id="f-about-body" rows="12" maxlength="2500" style="width:100%; padding:12px; background:var(--black-elevated); border:1px solid var(--silver-faint); color:var(--white); border-radius:4px; font-family:var(--font-body); resize:vertical;"></textarea>
+            <span class="char-count" id="c-about-body">0 / 2500</span>
+          </div>
+          
+          <label style="display:block; font-size:12px; text-transform:uppercase; color:var(--silver); margin-bottom:8px;">Profile Stats</label>
+          <div class="stats-editor">
+            <div>
+              <input type="text" id="f-stat1-num" maxlength="10" placeholder="Number (e.g. 6,500+)">
+              <input type="text" id="f-stat1-lbl" maxlength="20" placeholder="Label (e.g. Copies Sold)">
+            </div>
+            <div>
+              <input type="text" id="f-stat2-num" maxlength="10" placeholder="Number (e.g. 12+)">
+              <input type="text" id="f-stat2-lbl" maxlength="20" placeholder="Label (e.g. Projects)">
+            </div>
+            <div>
+              <input type="text" id="f-stat3-num" maxlength="10" placeholder="Number (e.g. 4)">
+              <input type="text" id="f-stat3-lbl" maxlength="20" placeholder="Label (e.g. Platforms)">
+            </div>
+          </div>
+        </div>
+        
+        <div class="live-preview" id="prev-about">
+          <!-- Live Preview Injected Here via JS -->
+        </div>
+      </div>
+      
+      <!-- MUSIC SECTION -->
+      <h3 style="margin-bottom: 15px; color: var(--red);">2. MUSIC SECTION (BLURB)</h3>
+      <div class="editor-layout" style="margin-bottom: 40px;">
+        <div class="editor-form">
+          <div class="form-group">
+            <label>Release Title (Max 60 chars)</label>
+            <input type="text" id="f-music-head" maxlength="60" value="Bliss — &quot;Incredible&quot;">
+            <span class="char-count" id="c-music-head">0 / 60</span>
+          </div>
+          <div class="form-group">
+            <label>Release Description (Max 800 chars)</label>
+            <textarea id="f-music-body" rows="6" maxlength="800" style="width:100%; padding:12px; background:var(--black-elevated); border:1px solid var(--silver-faint); color:var(--white); border-radius:4px; font-family:var(--font-body); resize:vertical;"></textarea>
+            <span class="char-count" id="c-music-body">0 / 800</span>
+          </div>
+        </div>
+        
+        <div class="live-preview" id="prev-music">
+          <!-- Live Preview Injected Here via JS -->
         </div>
       </div>
 
-      <button class="btn" id="publish-copy-btn">Publish to Live Site</button>
-      <div id="copy-msg" style="margin-top:10px;"></div>
+      <div style="background: var(--black-elevated); padding: 20px; border-radius: 8px; border: 1px solid var(--silver-faint); text-align: right;">
+        <span id="copy-msg" style="margin-right: 20px;"></span>
+        <button class="btn btn-small" id="publish-copy-btn" style="width: 200px;">Publish Changes</button>
+      </div>
+      
+      <!-- TOAST NOTIFICATION -->
+      <div id="toast-limit" class="toast">Character limit reached! Keep it concise.</div>
+
     </div>
     <!-- MESSAGES TAB -->
     <div class="tab-content" id="tab-messages">
