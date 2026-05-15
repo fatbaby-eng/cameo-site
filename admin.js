@@ -182,8 +182,6 @@ async function loadCopy() {
         if (item.id === 'music_html' && item.content) {
             document.getElementById('live-editor-music').innerHTML = item.content;
         }
-            document.getElementById('live-editor').innerHTML = item.content;
-        }
     });
 }
 
