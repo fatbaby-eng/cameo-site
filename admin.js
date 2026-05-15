@@ -203,6 +203,12 @@ const stat3Lbl = document.getElementById('f-stat3-lbl');
 
 const prevAbout = document.getElementById('prev-about');
 const prevMusic = document.getElementById('prev-music');
+const fDescBeats = document.getElementById('f-desc-beats');
+const fDescServices = document.getElementById('f-desc-services');
+const fDescVideos = document.getElementById('f-desc-videos');
+const fDescLicensing = document.getElementById('f-desc-licensing');
+const fDescContact = document.getElementById('f-desc-contact');
+const prevDescBeats = document.getElementById('prev-desc-beats');
 
 // Toast logic
 let toastTimeout;
@@ -259,6 +265,8 @@ function renderPreviews() {
     </div>
   `;
   
+  prevDescBeats.textContent = fDescBeats.value || 'Description preview...';
+  
   // Music
   const mHead = fMusicHead.value || 'Headline';
   const mBodyLines = fMusicBody.value ? fMusicBody.value.split('\n\n') : [];
@@ -281,6 +289,11 @@ setTimeout(() => {
   bindInput(fAboutBody, 'c-about-body');
   bindInput(fMusicHead, 'c-music-head');
   bindInput(fMusicBody, 'c-music-body');
+  bindInput(fDescBeats, 'c-desc-beats');
+  bindInput(fDescServices, 'c-desc-services');
+  bindInput(fDescVideos, 'c-desc-videos');
+  bindInput(fDescLicensing, 'c-desc-licensing');
+  bindInput(fDescContact, 'c-desc-contact');
   
   [stat1Num, stat1Lbl, stat2Num, stat2Lbl, stat3Num, stat3Lbl].forEach(el => {
     el.addEventListener('input', renderPreviews);
@@ -297,6 +310,11 @@ async function loadCopy() {
     stat1Num.value = "6,500+"; stat1Lbl.value = "Copies Sold";
     stat2Num.value = "12+"; stat2Lbl.value = "Projects Released";
     stat3Num.value = "4"; stat3Lbl.value = "Platforms";
+    fDescBeats.value = "Preview, license, and instantly download premium instrumentals. Trap soul, west coast, R&B — crafted with intention.";
+    fDescServices.value = "From custom production to vocal writing and sync placement — let's create something that moves people.";
+    fDescVideos.value = "Music videos, live performances, studio sessions, and behind-the-scenes content.";
+    fDescLicensing.value = "License original music by Cameo Holliday for your next project. A growing catalog of soulful, cinematic tracks ready for placement.";
+    fDescContact.value = "Whether you need a custom beat, vocal work, or want to license music for your project — I'm ready to build something great with you.";
     
     // Override with DB
     data.forEach(item => {
@@ -310,6 +328,11 @@ async function loadCopy() {
         if (item.id === 'stat2_lbl') stat2Lbl.value = item.content;
         if (item.id === 'stat3_num') stat3Num.value = item.content;
         if (item.id === 'stat3_lbl') stat3Lbl.value = item.content;
+        if (item.id === 'desc_beats') fDescBeats.value = item.content;
+        if (item.id === 'desc_services') fDescServices.value = item.content;
+        if (item.id === 'desc_videos') fDescVideos.value = item.content;
+        if (item.id === 'desc_licensing') fDescLicensing.value = item.content;
+        if (item.id === 'desc_contact') fDescContact.value = item.content;
     });
     
     setTimeout(() => {
@@ -317,6 +340,7 @@ async function loadCopy() {
       fAboutBody.dispatchEvent(new Event('input'));
       fMusicHead.dispatchEvent(new Event('input'));
       fMusicBody.dispatchEvent(new Event('input'));
+            fDescBeats.dispatchEvent(new Event('input'));
     }, 200);
 }
 
@@ -337,6 +361,11 @@ document.getElementById('publish-copy-btn').addEventListener('click', async () =
         { id: 'stat2_lbl', content: stat2Lbl.value },
         { id: 'stat3_num', content: stat3Num.value },
         { id: 'stat3_lbl', content: stat3Lbl.value }
+        ,{ id: 'desc_beats', content: fDescBeats.value },
+        { id: 'desc_services', content: fDescServices.value },
+        { id: 'desc_videos', content: fDescVideos.value },
+        { id: 'desc_licensing', content: fDescLicensing.value },
+        { id: 'desc_contact', content: fDescContact.value }
     ];
     
     const { error } = await supabase.from('site_content').upsert(updates);

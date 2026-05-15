@@ -1773,6 +1773,30 @@
       aboutContainer.innerHTML = headHtml + bodyHtml + statsHtml;
     }
     
+    
+    // 3. Update Section Descriptions
+    if (db.desc_beats) {
+      const el = document.querySelector('#beats .section-desc');
+      if (el) el.textContent = db.desc_beats;
+    }
+    if (db.desc_services) {
+      const el = document.querySelector('#services .section-desc');
+      if (el) el.textContent = db.desc_services;
+    }
+    if (db.desc_videos) {
+      const el = document.querySelector('#videos .section-desc');
+      if (el) el.textContent = db.desc_videos;
+    }
+    if (db.desc_licensing) {
+      const el = document.querySelector('#licensing .section-desc');
+      if (el) el.textContent = db.desc_licensing;
+    }
+    if (db.desc_contact) {
+      // The contact text is inside the .contact-info paragraph
+      const el = document.querySelector('.contact-info p');
+      if (el) el.textContent = db.desc_contact;
+    }
+    
     // 2. Update Music Section
     const musicContainer = document.querySelector('.music-info');
     if (musicContainer && db.music_head && db.music_body) {
