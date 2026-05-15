@@ -131,27 +131,91 @@
     </div>
 
 
+    
     <!-- COPY TAB -->
     <div class="tab-content" id="tab-copy">
-      <h2>Edit Site Copy (About Section)</h2>
-      <p style="color:var(--silver); font-size:14px; margin-bottom:20px;">Use this section to word-smith the main text blocks on your site.</p>
+      <h2>Live Editor: About Section</h2>
+      <p style="color:var(--silver); font-size:14px; margin-bottom:20px;">Edit the text directly in the preview below to word-smith the copy. Click anywhere on the text to start typing. When you're ready, click Publish.</p>
       
-      <div class="form-group">
-        <label>About Section Header</label>
-        <input type="text" id="copy-about-heading" placeholder="e.g. A SOUND BUILT ON SOUL">
+      <style>
+        .live-preview {
+          border: 1px solid var(--silver-faint);
+          padding: 40px;
+          border-radius: 8px;
+          background: var(--black);
+          margin-bottom: 20px;
+        }
+        #live-editor {
+          outline: none;
+        }
+        #live-editor:focus {
+          box-shadow: 0 0 0 2px var(--red);
+          border-radius: 4px;
+        }
+        #live-editor h3 {
+          font-family: var(--font-heading);
+          font-size: 36px;
+          margin-bottom: 20px;
+          color: var(--white);
+          letter-spacing: 2px;
+        }
+        #live-editor p {
+          color: var(--silver);
+          line-height: 1.8;
+          font-size: 16px;
+          margin-bottom: 16px;
+        }
+        #live-editor .about-stats {
+          display: flex;
+          gap: 40px;
+          margin-top: 40px;
+          border-top: 1px solid var(--silver-faint);
+          padding-top: 30px;
+        }
+        #live-editor .stat-number {
+          font-family: var(--font-heading);
+          font-size: 48px;
+          color: var(--red);
+          line-height: 1;
+        }
+        #live-editor .stat-label {
+          font-size: 13px;
+          text-transform: uppercase;
+          letter-spacing: 2px;
+          color: var(--silver-dim);
+          margin-top: 8px;
+        }
+      </style>
+
+      <div class="live-preview">
+        <div id="live-editor" contenteditable="true">
+          <h3>Who is Cameo Holliday?</h3>
+          <p>Cameo Holliday discovered his voice at just 12 years old and began writing music by 16, quickly developing a gift for transforming raw human emotion into melody. A graduate of Bristol Studios in Boston, MA, with an associate's degree in Audio Engineering, Holliday set out with a clear mission: to leave a lasting imprint on the music industry.</p>
+          <p>A natural creative, Holliday moves seamlessly between writing for himself and crafting records for other artists. As a self-producing artist building in a competitive, independent market, he brings both vision and discipline to every project. For him, music is more than passion it's a way of life. "I live to create, produce, and bring my sound wherever it's needed."</p>
+          <p>Blending genres with ease, Holliday's sound is best described as charismatic, soulful, and undeniably sensual an authentic reflection of his artistry and presence.</p>
+          <p>Beyond the studio, Holliday is a seasoned vocalist and performer with an extensive catalog. His discography includes projects such as <em>Rayain</em>, <em>Finally</em> (his solo debut), <em>The Lona Boi Mixtape</em>, <em>Emotions</em>, <em>The EarCrack Compilation</em>, and <em>The Gangsta & The Gentleman</em>. He has also released a series of EPs, including <em>Rose Petals & Lingerie</em>, <em>Stilettos & Black Lace</em>, <em>I'm Still Here</em>, <em>Emotions V2</em>, <em>Brown Liquor Music</em>, and his latest project, <em>Bliss</em>.</p>
+          <p>With over 6,500 physical copies sold independently and a growing presence across streaming platforms, Holliday continues to expand his reach and connect with new audiences. His latest contemporary R&B project, <em>Bliss</em>, showcases smooth harmonies, refined tones, and a matured sound that signals the evolution of his artistry.</p>
+          <p style="font-style: italic; color: var(--red); margin-top: 8px;">This is only the beginning. Cameo Holliday is building a legacy one record at a time.</p>
+          <div class="about-stats" contenteditable="false">
+            <div contenteditable="true">
+              <div class="stat-number">6,500+</div>
+              <div class="stat-label">Copies Sold</div>
+            </div>
+            <div contenteditable="true">
+              <div class="stat-number">12+</div>
+              <div class="stat-label">Projects Released</div>
+            </div>
+            <div contenteditable="true">
+              <div class="stat-number">4</div>
+              <div class="stat-label">Platforms</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label>About Section Text (Paragraph 1)</label>
-        <textarea id="copy-about-p1" rows="5" style="width: 100%; padding: 12px; background: var(--black-elevated); border: 1px solid var(--silver-faint); color: var(--white); border-radius: 4px; font-family: var(--font-body);"></textarea>
-      </div>
-      <div class="form-group">
-        <label>About Section Text (Paragraph 2)</label>
-        <textarea id="copy-about-p2" rows="5" style="width: 100%; padding: 12px; background: var(--black-elevated); border: 1px solid var(--silver-faint); color: var(--white); border-radius: 4px; font-family: var(--font-body);"></textarea>
-      </div>
-      <button class="btn btn-small" id="save-copy-btn">Save Copy Changes to Live Site</button>
+
+      <button class="btn" id="publish-copy-btn">Publish to Live Site</button>
       <div id="copy-msg" style="margin-top:10px;"></div>
     </div>
-
     <!-- MESSAGES TAB -->
     <div class="tab-content" id="tab-messages">
       <h2>Contact Form Messages</h2>

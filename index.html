@@ -1740,17 +1740,14 @@
   .then(data => {
     if (!Array.isArray(data)) return;
     data.forEach(item => {
-      if (item.id === 'about_heading' && item.content) {
-        const el = document.querySelector('.about-text h3');
-        if (el) el.textContent = item.content;
-      }
-      if (item.id === 'about_p1' && item.content) {
-        const el = document.querySelectorAll('.about-text p')[0];
-        if (el) el.textContent = item.content;
-      }
-      if (item.id === 'about_p2' && item.content) {
-        const el = document.querySelectorAll('.about-text p')[1];
-        if (el) el.textContent = item.content;
+      if (item.id === 'about_html' && item.content) {
+        const el = document.querySelector('.about-text');
+        if (el) {
+          el.innerHTML = item.content;
+          // Ensure contenteditable is removed when displayed on the live site
+          el.removeAttribute('contenteditable');
+          el.querySelectorAll('[contenteditable]').forEach(node => node.removeAttribute('contenteditable'));
+        }
       }
     });
   })
