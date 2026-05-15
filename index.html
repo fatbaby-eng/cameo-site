@@ -1797,6 +1797,21 @@
       if (el) el.textContent = db.desc_contact;
     }
     
+    
+    // 4. Update Music Embed
+    const musicEmbedContainer = document.querySelector('.music-embed');
+    if (musicEmbedContainer) {
+      if (db.music_embed && db.music_embed.trim() !== '') {
+        musicEmbedContainer.innerHTML = db.music_embed;
+        musicEmbedContainer.classList.remove('bandcamp-placeholder');
+      } else {
+        // Default Spotify Fallback
+        musicEmbedContainer.innerHTML = '<iframe style="border-radius:8px" src="https://open.spotify.com/embed/artist/2E0iGMKeho77cmTaZ6Jep4?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>';
+        musicEmbedContainer.classList.remove('bandcamp-placeholder');
+      }
+    }
+
+    
     // 2. Update Music Section
     const musicContainer = document.querySelector('.music-info');
     if (musicContainer && db.music_head && db.music_body) {

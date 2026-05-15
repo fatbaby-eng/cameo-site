@@ -193,6 +193,7 @@ const fAboutHead = document.getElementById('f-about-head');
 const fAboutBody = document.getElementById('f-about-body');
 const fMusicHead = document.getElementById('f-music-head');
 const fMusicBody = document.getElementById('f-music-body');
+const fMusicEmbed = document.getElementById('f-music-embed');
 
 const stat1Num = document.getElementById('f-stat1-num');
 const stat1Lbl = document.getElementById('f-stat1-lbl');
@@ -322,6 +323,7 @@ async function loadCopy() {
         if (item.id === 'about_body') fAboutBody.value = item.content;
         if (item.id === 'music_head') fMusicHead.value = item.content;
         if (item.id === 'music_body') fMusicBody.value = item.content;
+        if (item.id === 'music_embed') fMusicEmbed.value = item.content;
         if (item.id === 'stat1_num') stat1Num.value = item.content;
         if (item.id === 'stat1_lbl') stat1Lbl.value = item.content;
         if (item.id === 'stat2_num') stat2Num.value = item.content;
@@ -355,6 +357,7 @@ document.getElementById('publish-copy-btn').addEventListener('click', async () =
         { id: 'about_body', content: fAboutBody.value },
         { id: 'music_head', content: fMusicHead.value },
         { id: 'music_body', content: fMusicBody.value },
+        { id: 'music_embed', content: fMusicEmbed.value },
         { id: 'stat1_num', content: stat1Num.value },
         { id: 'stat1_lbl', content: stat1Lbl.value },
         { id: 'stat2_num', content: stat2Num.value },
