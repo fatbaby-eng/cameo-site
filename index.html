@@ -1740,6 +1740,14 @@
   .then(data => {
     if (!Array.isArray(data)) return;
     data.forEach(item => {
+      if (item.id === 'music_html' && item.content) {
+        const el = document.querySelector('.music-info');
+        if (el) {
+          el.innerHTML = item.content;
+          el.removeAttribute('contenteditable');
+          el.querySelectorAll('[contenteditable]').forEach(node => node.removeAttribute('contenteditable'));
+        }
+      }
       if (item.id === 'about_html' && item.content) {
         const el = document.querySelector('.about-text');
         if (el) {

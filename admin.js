@@ -179,6 +179,11 @@ async function loadCopy() {
         if (item.id === 'about_html' && item.content) {
             document.getElementById('live-editor').innerHTML = item.content;
         }
+        if (item.id === 'music_html' && item.content) {
+            document.getElementById('live-editor-music').innerHTML = item.content;
+        }
+            document.getElementById('live-editor').innerHTML = item.content;
+        }
     });
 }
 
@@ -188,9 +193,15 @@ document.getElementById('publish-copy-btn').addEventListener('click', async () =
     btn.disabled = true;
     btn.textContent = 'Publishing...';
     
-    const content = document.getElementById('live-editor').innerHTML;
     
-    const { error } = await supabase.from('site_content').upsert({ id: 'about_html', content });
+    
+    const aboutContent = document.getElementById('live-editor').innerHTML;
+    const musicContent = document.getElementById('live-editor-music').innerHTML;
+    const updates = [
+        { id: 'about_html', content: aboutContent },
+        { id: 'music_html', content: musicContent }
+    ];
+    const { error } = await supabase.from('site_content').upsert(updates);
     
     btn.disabled = false;
     btn.textContent = 'Publish to Live Site';
