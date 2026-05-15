@@ -1195,7 +1195,44 @@
     .hero-ctas { flex-direction: column; align-items: center; }
     .btn { width: 100%; max-width: 280px; text-align: center; }
   }
+
+  /* ─── BACK TO TOP ─── */
+  .back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 44px;
+    height: 44px;
+    background: var(--red);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 9900;
+    box-shadow: 0 4px 12px var(--red-glow-strong);
+    text-decoration: none;
+  }
+  .back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .back-to-top:hover {
+    background: var(--red-bright);
+    transform: translateY(-3px);
+  }
+  .back-to-top svg {
+    width: 20px;
+    height: 20px;
+  }
 </style>
+  <link rel="icon" type="image/png" href="favicon.png">
 </head>
 <body>
 
@@ -1594,7 +1631,24 @@
   </div>
 </footer>
 
+<!-- BACK TO TOP BUTTON -->
+<a href="#home" class="back-to-top" id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+</a>
+
+
 <script>
+  
+  // ─── BACK TO TOP ───
+  const backToTopBtn = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 500) {
+      backToTopBtn.classList.add('visible');
+    } else {
+      backToTopBtn.classList.remove('visible');
+    }
+  });
+
   // ─── NAV SCROLL EFFECT ───
   const nav = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
