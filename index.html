@@ -1701,34 +1701,77 @@
   // ═══════════════════════════════════════
   // CMS CONTENT LOADER
   // ═══════════════════════════════════════
-  fetch('cms-config.json')
-    .then(r => r.json())
-    .then(cfg => {
-      if (cfg.bandcampEnabled && cfg.bandcampUrl) {
-        const bc = document.querySelector('.bandcamp-placeholder');
-        if (bc) bc.innerHTML = `<iframe style="border:0;width:100%;height:420px;" src="${cfg.bandcampUrl}?embed=1&hide_artwork=1&bgcol=080808&linkcol=ffffff&transparent=1" seamless></iframe>`;
-      }
-      if (cfg.beatstarsEnabled && cfg.beatstarsUrl) {
-        const bs = document.querySelector('.beatstars-placeholder');
-        if (bs) bs.innerHTML = `<iframe style="border:0;width:100%;height:420px;" src="${cfg.beatstarsUrl}" seamless></iframe>`;
-      }
-      const gallery = document.querySelector('.video-gallery');
-      if (gallery && Array.isArray(cfg.videos)) {
-        cfg.videos.forEach(v => {
-          const div = document.createElement('div');
-          div.className = 'video-card';
-          div.innerHTML = `<iframe src="${v.embedUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-          gallery.appendChild(div);
-        });
-      }
-    })
-    .catch(err => console.error('CMS config load error:', err));
+  
 </script>
 <script src="/chat/files/todd-chat-widget.js?v=3" defer data-api-url="https://toddboswell.com/api/chat" data-icon-url="/images/chat-fab-kewpie-icon.png?v=2"></script>
 
 <script type="module">
     // ─── DYNAMIC COPY LOADER (SUPABASE) FOOLPROOF ───
   import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
+
+
+  // ═══════════════════════════════════════
+  // VIDEOS LOADER (SUPABASE)
+  // ═══════════════════════════════════════
+  fetch(SUPABASE_URL + '/rest/v1/videos?select=*&order=created_at.desc', {
+    headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (!Array.isArray(data)) return;
+    const gallery = document.getElementById('videos-container');
+    if (gallery && data.length > 0) {
+      gallery.innerHTML = '';
+      data.forEach(v => {
+        let embedStr = v.url;
+        if (embedStr.includes('youtube.com/watch?v=')) {
+          const vidId = embedStr.split('v=')[1].split('&')[0];
+          embedStr = `<iframe src="https://www.youtube.com/embed/${vidId}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
+        } else if (embedStr.includes('youtu.be/')) {
+          const vidId = embedStr.split('youtu.be/')[1].split('?')[0];
+          embedStr = `<iframe src="https://www.youtube.com/embed/${vidId}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
+        } else if (!embedStr.includes('<iframe')) {
+          embedStr = `<iframe src="${embedStr}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
+        }
+        gallery.innerHTML += `<div class="video-card">${embedStr}</div>`;
+      });
+    }
+  })
+  .catch(err => console.error('Videos load error:', err));
+
+  // ═══════════════════════════════════════
+  // BEATS LOADER (SUPABASE)
+  // ═══════════════════════════════════════
+  fetch(SUPABASE_URL + '/rest/v1/beatstars?select=*&order=created_at.desc', {
+    headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (!Array.isArray(data)) return;
+    const bsContainer = document.getElementById('beats-container');
+    if (bsContainer && data.length > 0) {
+      bsContainer.innerHTML = '';
+      bsContainer.classList.remove('beatstars-placeholder');
+      data.forEach(b => {
+        let embedStr = b.embed_url;
+        if (!embedStr.includes('<iframe')) {
+           embedStr = `<iframe style="border:0;width:100%;height:600px;margin-bottom:20px;" src="${embedStr}" seamless loading="lazy"></iframe>`;
+        } else {
+           embedStr = `<div style="margin-bottom:20px; width:100%;">${embedStr}</div>`;
+        }
+        bsContainer.innerHTML += embedStr;
+      });
+    } else if (bsContainer && data.length === 0) {
+      // If no beats added yet, show a nice empty state instead of 404
+      bsContainer.innerHTML = `<div style="padding: 60px 20px; text-align: center; border: 1px dashed var(--silver-faint); border-radius: 8px; color: var(--silver-dim);">
+        <h3>Beat Store Player</h3>
+        <p style="margin-top:10px; font-size:14px;">Log into the CMS and add your BeatStars Embed Code under the "Manage Beats" tab.</p>
+      </div>`;
+      bsContainer.classList.remove('beatstars-placeholder');
+    }
+  })
+  .catch(err => console.error('Beats load error:', err));
+
 
   fetch(SUPABASE_URL + '/rest/v1/site_content?select=*', {
     headers: {
