@@ -1,2 +1,2 @@
-export const SUPABASE_URL = "https://YOUR_PROJECT_ID.supabase.co"; // <-- YOU WILL NEED TO UPDATE THIS
-export const SUPABASE_ANON_KEY = "sb_publishable_0_eUtq9T7lTM2DRWXVCsXw_U0n8W2ZZ"; // You pasted this, but usually it starts with "eyJhb..."
+export const SUPABASE_URL = "https://enchstezfneikdiymjfo.supabase.co";
+export const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVuY2hzdGV6Zm5laWtkaXltamZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3OTc0MjAsImV4cCI6MjA5MjM3MzQyMH0.iYvT1Gezmsj2t4Jnmpdw9fAyq-WYbQH9T4zdTA8BKME";
