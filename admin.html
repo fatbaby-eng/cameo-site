@@ -83,6 +83,7 @@
       <div class="tab active" data-target="tab-videos">Manage Videos</div>
       <div class="tab" data-target="tab-beats">Manage Beats</div>
       <div class="tab" data-target="tab-messages">Inbox / Forms</div>
+      <div class="tab" data-target="tab-copy">Site Copy</div>
     </div>
 
     <!-- VIDEOS TAB -->
@@ -127,6 +128,28 @@
 
       <h2 style="margin-top: 40px;">Current Beats</h2>
       <div class="item-list" id="beat-list">Loading...</div>
+    </div>
+
+
+    <!-- COPY TAB -->
+    <div class="tab-content" id="tab-copy">
+      <h2>Edit Site Copy (About Section)</h2>
+      <p style="color:var(--silver); font-size:14px; margin-bottom:20px;">Use this section to word-smith the main text blocks on your site.</p>
+      
+      <div class="form-group">
+        <label>About Section Header</label>
+        <input type="text" id="copy-about-heading" placeholder="e.g. A SOUND BUILT ON SOUL">
+      </div>
+      <div class="form-group">
+        <label>About Section Text (Paragraph 1)</label>
+        <textarea id="copy-about-p1" rows="5" style="width: 100%; padding: 12px; background: var(--black-elevated); border: 1px solid var(--silver-faint); color: var(--white); border-radius: 4px; font-family: var(--font-body);"></textarea>
+      </div>
+      <div class="form-group">
+        <label>About Section Text (Paragraph 2)</label>
+        <textarea id="copy-about-p2" rows="5" style="width: 100%; padding: 12px; background: var(--black-elevated); border: 1px solid var(--silver-faint); color: var(--white); border-radius: 4px; font-family: var(--font-body);"></textarea>
+      </div>
+      <button class="btn btn-small" id="save-copy-btn">Save Copy Changes to Live Site</button>
+      <div id="copy-msg" style="margin-top:10px;"></div>
     </div>
 
     <!-- MESSAGES TAB -->

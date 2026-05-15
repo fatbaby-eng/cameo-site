@@ -168,3 +168,44 @@ window.deleteItem = async (table, id) => {
         if(table === 'messages') loadMessages();
     }
 };
+
+
+// ─── MANAGE COPY ───
+async function loadCopy() {
+    const { data, error } = await supabase.from('site_content').select('*');
+    if (error) { console.error('Error loading copy:', error); return; }
+    
+    data.forEach(item => {
+        if (item.id === 'about_heading') document.getElementById('copy-about-heading').value = item.content;
+        if (item.id === 'about_p1') document.getElementById('copy-about-p1').value = item.content;
+        if (item.id === 'about_p2') document.getElementById('copy-about-p2').value = item.content;
+    });
+}
+
+document.getElementById('save-copy-btn').addEventListener('click', async () => {
+    const btn = document.getElementById('save-copy-btn');
+    const msg = document.getElementById('copy-msg');
+    btn.disabled = true;
+    btn.textContent = 'Saving...';
+    
+    const updates = [
+        { id: 'about_heading', content: document.getElementById('copy-about-heading').value },
+        { id: 'about_p1', content: document.getElementById('copy-about-p1').value },
+        { id: 'about_p2', content: document.getElementById('copy-about-p2').value }
+    ];
+    
+    // Upsert all at once
+    const { error } = await supabase.from('site_content').upsert(updates);
+    
+    btn.disabled = false;
+    btn.textContent = 'Save Copy Changes to Live Site';
+    
+    if (error) {
+        msg.className = 'error';
+        msg.textContent = error.message;
+    } else {
+        msg.className = 'success';
+        msg.textContent = 'Changes saved successfully! The live site is now updated.';
+        setTimeout(() => msg.textContent = '', 4000);
+    }
+});

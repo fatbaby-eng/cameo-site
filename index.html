@@ -1725,5 +1725,36 @@
     .catch(err => console.error('CMS config load error:', err));
 </script>
 <script src="/chat/files/todd-chat-widget.js?v=3" defer data-api-url="https://toddboswell.com/api/chat" data-icon-url="/images/chat-fab-kewpie-icon.png?v=2"></script>
+
+<script type="module">
+  // ─── DYNAMIC COPY LOADER (SUPABASE) ───
+  import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
+
+  fetch(SUPABASE_URL + '/rest/v1/site_content?select=*', {
+    headers: {
+      'apikey': SUPABASE_ANON_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+    }
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (!Array.isArray(data)) return;
+    data.forEach(item => {
+      if (item.id === 'about_heading' && item.content) {
+        const el = document.querySelector('.about-text h3');
+        if (el) el.textContent = item.content;
+      }
+      if (item.id === 'about_p1' && item.content) {
+        const el = document.querySelectorAll('.about-text p')[0];
+        if (el) el.textContent = item.content;
+      }
+      if (item.id === 'about_p2' && item.content) {
+        const el = document.querySelectorAll('.about-text p')[1];
+        if (el) el.textContent = item.content;
+      }
+    });
+  })
+  .catch(err => console.error('Error loading dynamic copy:', err));
+</script>
 </body>
 </html>
