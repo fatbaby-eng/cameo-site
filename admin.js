@@ -335,6 +335,20 @@ async function loadCopy() {
         if (item.id === 'desc_videos') fDescVideos.value = item.content;
         if (item.id === 'desc_licensing') fDescLicensing.value = item.content;
         if (item.id === 'desc_contact') fDescContact.value = item.content;
+
+        toggles.forEach(t => {
+            const el = document.getElementById('toggle-' + t);
+            if (el && item.id === 'toggle_' + t) {
+                el.checked = (item.content !== 'false');
+            }
+        });
+        images.forEach(img => {
+            const el = document.getElementById('img-' + img);
+            if (el && item.id === 'img_' + img.replace('-', '_')) {
+                el.value = item.content || '';
+            }
+        });
+
     });
     
     setTimeout(() => {
@@ -385,3 +399,44 @@ document.getElementById('publish-copy-btn').addEventListener('click', async () =
         setTimeout(() => msg.textContent = '', 4000);
     }
 });
+
+
+// ==========================================
+// LAYOUT & IMAGES LOGIC
+// ==========================================
+const toggles = ['beats', 'services', 'music', 'videos', 'about', 'gallery', 'licensing', 'contact'];
+const images = ['hero', 'about', 'gal-1', 'gal-2', 'gal-3', 'gal-4', 'gal-5', 'gal-6'];
+
+// Checkboxes & inputs loaded in loadCopy()
+// Add save listener for Layout
+const layoutBtn = document.getElementById('publish-layout-btn');
+if (layoutBtn) {
+    layoutBtn.addEventListener('click', async () => {
+        const msg = document.getElementById('layout-msg');
+        layoutBtn.disabled = true;
+        layoutBtn.textContent = 'Saving...';
+        
+        let updates = [];
+        
+        toggles.forEach(t => {
+            updates.push({ id: 'toggle_' + t, content: document.getElementById('toggle-' + t).checked ? 'true' : 'false' });
+        });
+        images.forEach(img => {
+            updates.push({ id: 'img_' + img.replace('-', '_'), content: document.getElementById('img-' + img).value });
+        });
+        
+        const { error } = await supabase.from('site_content').upsert(updates);
+        
+        layoutBtn.disabled = false;
+        layoutBtn.textContent = 'Save Layout Changes';
+        
+        if (error) {
+            msg.className = 'error';
+            msg.textContent = error.message;
+        } else {
+            msg.className = 'success';
+            msg.textContent = 'Layout & Images updated successfully!';
+            setTimeout(() => msg.textContent = '', 4000);
+        }
+    });
+}

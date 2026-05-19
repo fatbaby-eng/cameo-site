@@ -1625,7 +1625,8 @@
       <li><a href="#contact">Contact</a></li>
     </ul>
     <div class="footer-copy">
-      &copy; 2026 EarCrack Productions LLC. All rights reserved.
+      &copy; 2026 EarCrack Productions LLC. All rights reserved.<br>
+      <span style="font-size: 11px; color: var(--silver-dim); margin-top: 10px; display: inline-block;">Built by <a href="https://toddboswell.com" target="_blank" style="color: var(--silver); text-decoration: none; border-bottom: 1px dotted var(--silver-dim);">Todd Boswell</a></span>
     </div>
   </div>
 </footer>
@@ -1841,6 +1842,44 @@
     }
     
     
+    
+    // 5. Section Visibility
+    const toggles = ['beats', 'services', 'music', 'videos', 'about', 'gallery', 'licensing', 'contact'];
+    toggles.forEach(t => {
+      const dbVal = db['toggle_' + t];
+      if (dbVal === 'false') {
+        const sec = document.getElementById(t) || document.querySelector(t === 'gallery' ? '.gallery-strip' : '');
+        if (sec) sec.style.display = 'none';
+        
+        // Also hide nav links
+        document.querySelectorAll(`a[href="#${t}"]`).forEach(link => {
+           link.style.display = 'none';
+           // if it's the mobile menu, maybe hide it
+        });
+        // Special case for mobile menu if class not standard
+        if (t === 'beats') {
+           document.querySelectorAll('a[href="#beats"]').forEach(a => a.style.display='none');
+        }
+      }
+    });
+
+    // 6. Image Management
+    if (db.img_hero) {
+      const hero = document.querySelector('.hero-bg');
+      if (hero) hero.style.backgroundImage = `url('${db.img_hero}')`;
+    }
+    if (db.img_about) {
+      const aboutImg = document.querySelector('.about-image-frame img');
+      if (aboutImg) aboutImg.src = db.img_about;
+    }
+    for (let i = 1; i <= 6; i++) {
+      if (db['img_gal_' + i]) {
+        const galImg = document.querySelectorAll('.gallery-item img')[i - 1];
+        if (galImg) galImg.src = db['img_gal_' + i];
+      }
+    }
+
+
     // 4. Update Music Embed
     const musicEmbedContainer = document.querySelector('.music-embed');
     if (musicEmbedContainer) {

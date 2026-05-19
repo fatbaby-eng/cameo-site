@@ -126,6 +126,7 @@
       <div class="tab" data-target="tab-beats">Manage Beats</div>
       <div class="tab" data-target="tab-messages">Inbox / Forms</div>
       <div class="tab" data-target="tab-copy">Site Copy</div>
+      <div class="tab" data-target="tab-layout">Site Layout & Images</div>
     </div>
 
     <!-- VIDEOS TAB -->
@@ -358,5 +359,86 @@
 </div>
 
 <script type="module" src="admin.js"></script>
+
+    <!-- LAYOUT TAB -->
+    <div class="tab-content" id="tab-layout">
+      <div class="editor-layout" style="grid-template-columns: 1fr; max-width: 800px;">
+        <div class="editor-form">
+          <h2>1. Section Visibility</h2>
+          <p style="font-size: 13px; color: var(--silver); margin-bottom: 20px;">Uncheck a box to instantly hide that section from the live site.</p>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 40px; background: var(--black-elevated); padding: 20px; border-radius: 8px; border: 1px solid var(--silver-faint);">
+            <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+              <input type="checkbox" id="toggle-beats" checked> Show Beats Section
+            </label>
+            <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+              <input type="checkbox" id="toggle-services" checked> Show Services Section
+            </label>
+            <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+              <input type="checkbox" id="toggle-music" checked> Show Music Section
+            </label>
+            <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+              <input type="checkbox" id="toggle-videos" checked> Show Videos Section
+            </label>
+            <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+              <input type="checkbox" id="toggle-about" checked> Show About Section
+            </label>
+            <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+              <input type="checkbox" id="toggle-gallery" checked> Show Photo Gallery
+            </label>
+            <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+              <input type="checkbox" id="toggle-licensing" checked> Show Licensing Section
+            </label>
+            <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+              <input type="checkbox" id="toggle-contact" checked> Show Contact Section
+            </label>
+          </div>
+
+          <h2>2. Site Images</h2>
+          <p style="font-size: 13px; color: var(--silver); margin-bottom: 20px;">To update an image, paste a direct URL to the image file (e.g. Imgur link). Leave blank to keep the default image.</p>
+          
+          <div class="form-group">
+            <label>Hero Background Image URL</label>
+            <input type="text" id="img-hero" placeholder="https://example.com/image.jpg">
+          </div>
+          <div class="form-group">
+            <label>About Section Portrait URL</label>
+            <input type="text" id="img-about" placeholder="https://example.com/image.jpg">
+          </div>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="form-group">
+              <label>Gallery Image 1 URL</label>
+              <input type="text" id="img-gal-1" placeholder="URL...">
+            </div>
+            <div class="form-group">
+              <label>Gallery Image 2 URL</label>
+              <input type="text" id="img-gal-2" placeholder="URL...">
+            </div>
+            <div class="form-group">
+              <label>Gallery Image 3 URL</label>
+              <input type="text" id="img-gal-3" placeholder="URL...">
+            </div>
+            <div class="form-group">
+              <label>Gallery Image 4 URL</label>
+              <input type="text" id="img-gal-4" placeholder="URL...">
+            </div>
+            <div class="form-group">
+              <label>Gallery Image 5 URL</label>
+              <input type="text" id="img-gal-5" placeholder="URL...">
+            </div>
+            <div class="form-group">
+              <label>Gallery Image 6 URL</label>
+              <input type="text" id="img-gal-6" placeholder="URL...">
+            </div>
+          </div>
+
+          <div style="margin-top: 30px; text-align: right;">
+            <span id="layout-msg" style="margin-right: 20px;"></span>
+            <button class="btn btn-small" id="publish-layout-btn" style="width: 200px;">Save Layout Changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 </body>
 </html>
