@@ -1880,7 +1880,85 @@
     }
 
 
-    // 4. Update Music Embed
+  
+  // ═══════════════════════════════════════
+  // CONTACT FORM SUBMISSION
+  // ═══════════════════════════════════════
+  const submitBtn = document.getElementById('contact-submit');
+  if (submitBtn) {
+    submitBtn.addEventListener('click', () => {
+      const name = document.getElementById('contact-name').value.trim();
+      const email = document.getElementById('contact-email').value.trim();
+      const type = document.getElementById('contact-type').value;
+      const message = document.getElementById('contact-message').value.trim();
+      const status = document.getElementById('contact-status');
+      
+      if (!name || !email || !message) {
+        status.style.color = 'var(--red)';
+        status.textContent = 'Please fill out all required fields.';
+        return;
+      }
+      
+      submitBtn.disabled = true;
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Sending...';
+      status.textContent = '';
+      
+      const payload = {
+        name: name,
+        email: email,
+        inquiry_type: type,
+        message: message
+      };
+      
+      fetch(SUPABASE_URL + '/rest/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(res => {
+        if (!res.ok) throw new Error('Network error');
+        
+        // Success Animation
+        submitBtn.innerHTML = 'Sent! <svg style="display:inline; margin-left:8px; vertical-align:middle;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+        submitBtn.style.background = 'var(--red)';
+        submitBtn.style.color = '#fff';
+        submitBtn.style.borderColor = 'var(--red)';
+        
+        status.style.color = 'var(--silver)';
+        status.textContent = 'Thanks! Your message has been securely sent to the Inbox.';
+        
+        // Reset form
+        document.getElementById('contact-name').value = '';
+        document.getElementById('contact-email').value = '';
+        document.getElementById('contact-type').value = '';
+        document.getElementById('contact-message').value = '';
+        
+        setTimeout(() => {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+          submitBtn.style.background = '';
+          submitBtn.style.borderColor = '';
+          status.textContent = '';
+        }, 5000);
+      })
+      .catch(err => {
+        console.error(err);
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+        status.style.color = 'var(--red)';
+        status.textContent = 'Something went wrong. Please try again.';
+      });
+    });
+  }
+
+
+  // 4. Update Music Embed
     const musicEmbedContainer = document.querySelector('.music-embed');
     if (musicEmbedContainer) {
       if (db.music_embed && db.music_embed.trim() !== '') {
