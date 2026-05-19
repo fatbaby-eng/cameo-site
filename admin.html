@@ -136,6 +136,7 @@
       <div class="tab" data-target="tab-beats">Manage Beats</div>
       <div class="tab" data-target="tab-messages">Inbox / Forms</div>
       <div class="tab" data-target="tab-copy">Site Copy</div>
+      <div class="tab" data-target="tab-pricing">Services & Pricing</div>
       <div class="tab" data-target="tab-layout">Site Layout & Images</div>
     </div>
 
@@ -369,6 +370,92 @@
 </div>
 
 <script type="module" src="admin.js"></script>
+
+    
+    <!-- PRICING TAB -->
+    <div class="tab-content" id="tab-pricing">
+      <div class="editor-layout" style="grid-template-columns: 1fr; max-width: 900px;">
+        <div class="editor-form">
+          <h2>Hero Section</h2>
+          <div class="form-group"><label>Hero Subtitle</label><input type="text" id="hero-sub" placeholder="PRODUCER • SONGWRITER • ARTIST"></div>
+          <div class="form-group"><label>Hero Title</label><input type="text" id="hero-title" placeholder="EARCRACK PRODUCTIONS"></div>
+
+          <h2 style="margin-top: 40px;">Beats Pricing Tiers</h2>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div style="padding: 15px; border: 1px solid var(--silver-faint); border-radius: 4px; background: var(--black-elevated);">
+              <h3 style="color:var(--red); margin-bottom:10px;">Tier 1</h3>
+              <div class="form-group"><label>Name</label><input type="text" id="b-t1-name"></div>
+              <div class="form-group"><label>Price</label><input type="text" id="b-t1-price"></div>
+              <div class="form-group"><label>Features (use | for new line)</label><input type="text" id="b-t1-desc"></div>
+            </div>
+            <div style="padding: 15px; border: 1px solid var(--silver-faint); border-radius: 4px; background: var(--black-elevated);">
+              <h3 style="color:var(--red); margin-bottom:10px;">Tier 2</h3>
+              <div class="form-group"><label>Name</label><input type="text" id="b-t2-name"></div>
+              <div class="form-group"><label>Price</label><input type="text" id="b-t2-price"></div>
+              <div class="form-group"><label>Features (use | for new line)</label><input type="text" id="b-t2-desc"></div>
+            </div>
+            <div style="padding: 15px; border: 1px solid var(--silver-faint); border-radius: 4px; background: var(--black-elevated);">
+              <h3 style="color:var(--red); margin-bottom:10px;">Tier 3</h3>
+              <div class="form-group"><label>Name</label><input type="text" id="b-t3-name"></div>
+              <div class="form-group"><label>Price</label><input type="text" id="b-t3-price"></div>
+              <div class="form-group"><label>Features (use | for new line)</label><input type="text" id="b-t3-desc"></div>
+            </div>
+            <div style="padding: 15px; border: 1px solid var(--silver-faint); border-radius: 4px; background: var(--black-elevated);">
+              <h3 style="color:var(--red); margin-bottom:10px;">Tier 4</h3>
+              <div class="form-group"><label>Name</label><input type="text" id="b-t4-name"></div>
+              <div class="form-group"><label>Price</label><input type="text" id="b-t4-price"></div>
+              <div class="form-group"><label>Features (use | for new line)</label><input type="text" id="b-t4-desc"></div>
+            </div>
+          </div>
+
+          <h2 style="margin-top: 40px;">Services Blocks</h2>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div style="padding: 15px; border: 1px solid var(--silver-faint); border-radius: 4px; background: var(--black-elevated);">
+              <h3 style="color:var(--red); margin-bottom:10px;">Service 1</h3>
+              <div class="form-group"><label>Title</label><input type="text" id="s1-title"></div>
+              <div class="form-group"><label>Price Text</label><input type="text" id="s1-price"></div>
+              <div class="form-group"><label>Description</label><textarea id="s1-desc" rows="3"></textarea></div>
+            </div>
+            <div style="padding: 15px; border: 1px solid var(--silver-faint); border-radius: 4px; background: var(--black-elevated);">
+              <h3 style="color:var(--red); margin-bottom:10px;">Service 2</h3>
+              <div class="form-group"><label>Title</label><input type="text" id="s2-title"></div>
+              <div class="form-group"><label>Price Text</label><input type="text" id="s2-price"></div>
+              <div class="form-group"><label>Description</label><textarea id="s2-desc" rows="3"></textarea></div>
+            </div>
+            <div style="padding: 15px; border: 1px solid var(--silver-faint); border-radius: 4px; background: var(--black-elevated);">
+              <h3 style="color:var(--red); margin-bottom:10px;">Service 3</h3>
+              <div class="form-group"><label>Title</label><input type="text" id="s3-title"></div>
+              <div class="form-group"><label>Price Text</label><input type="text" id="s3-price"></div>
+              <div class="form-group"><label>Description</label><textarea id="s3-desc" rows="3"></textarea></div>
+            </div>
+            <div style="padding: 15px; border: 1px solid var(--silver-faint); border-radius: 4px; background: var(--black-elevated);">
+              <h3 style="color:var(--red); margin-bottom:10px;">Service 4</h3>
+              <div class="form-group"><label>Title</label><input type="text" id="s4-title"></div>
+              <div class="form-group"><label>Price Text</label><input type="text" id="s4-price"></div>
+              <div class="form-group"><label>Description</label><textarea id="s4-desc" rows="3"></textarea></div>
+            </div>
+            <div style="padding: 15px; border: 1px solid var(--silver-faint); border-radius: 4px; background: var(--black-elevated);">
+              <h3 style="color:var(--red); margin-bottom:10px;">Service 5</h3>
+              <div class="form-group"><label>Title</label><input type="text" id="s5-title"></div>
+              <div class="form-group"><label>Price Text</label><input type="text" id="s5-price"></div>
+              <div class="form-group"><label>Description</label><textarea id="s5-desc" rows="3"></textarea></div>
+            </div>
+            <div style="padding: 15px; border: 1px solid var(--silver-faint); border-radius: 4px; background: var(--black-elevated);">
+              <h3 style="color:var(--red); margin-bottom:10px;">Service 6</h3>
+              <div class="form-group"><label>Title</label><input type="text" id="s6-title"></div>
+              <div class="form-group"><label>Price Text</label><input type="text" id="s6-price"></div>
+              <div class="form-group"><label>Description</label><textarea id="s6-desc" rows="3"></textarea></div>
+            </div>
+          </div>
+
+          <div style="margin-top: 30px; text-align: right;">
+            <span id="pricing-msg" style="margin-right: 20px;"></span>
+            <button class="btn btn-small" id="publish-pricing-btn" style="width: 200px;">Save Changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <!-- LAYOUT TAB -->
     <div class="tab-content" id="tab-layout">

@@ -343,6 +343,12 @@ async function loadCopy() {
             }
         });
 
+        
+        pricingKeys.forEach(k => {
+            const el = document.getElementById(k.replace(/_/g, '-'));
+            if (el && item.id === k) el.value = item.content || '';
+        });
+
         images.forEach(img => {
             const el = document.getElementById('img-' + img);
             const prev = document.getElementById('preview-' + img);
@@ -525,6 +531,19 @@ if (factoryBtn) {
         factoryBtn.textContent = 'Resetting...';
         
         const defaults = [
+            
+            { id: 'hero_title', content: "EARCRACK PRODUCTIONS" },
+            { id: 'hero_sub', content: "PRODUCER • SONGWRITER • ARTIST" },
+            { id: 'b_t1_name', content: "MP3 Lease" }, { id: 'b_t1_price', content: "$29" }, { id: 'b_t1_desc', content: "Non-exclusive license|Up to 50K streams|MP3 format" },
+            { id: 'b_t2_name', content: "WAV Lease" }, { id: 'b_t2_price', content: "$79" }, { id: 'b_t2_desc', content: "Non-exclusive license|Up to 500K streams|WAV format" },
+            { id: 'b_t3_name', content: "Unlimited" }, { id: 'b_t3_price', content: "$199" }, { id: 'b_t3_desc', content: "Unlimited streams|Full commercial use|WAV + stems" },
+            { id: 'b_t4_name', content: "Exclusive" }, { id: 'b_t4_price', content: "$699" }, { id: 'b_t4_desc', content: "Beat removed from store|Full ownership transfer|WAV + stems + project" },
+            { id: 's1_title', content: "Custom Beat Production" }, { id: 's1_price', content: "Starting at $250" }, { id: 's1_desc', content: "Fully mixed instrumental in HD WAV format. Includes exclusive rights, 3 free revisions, and 5-7 day turnaround." },
+            { id: 's2_title', content: "Hook Writing" }, { id: 's2_price', content: "Starting at $175" }, { id: 's2_desc', content: "Melody creation, lyrics, studio vocal recording, and mixed vocal stems. Make your track unforgettable." },
+            { id: 's3_title', content: "Verse Writing" }, { id: 's3_price', content: "Inquire for Pricing" }, { id: 's3_desc', content: "Custom verse writing tailored to your sound and vision. Professional lyrics that hit every time." },
+            { id: 's4_title', content: "Vocal Recording" }, { id: 's4_price', content: "Inquire for Pricing" }, { id: 's4_desc', content: "Professional vocal recording, arrangement, and production. Bring your song to life with studio-quality vocals." },
+            { id: 's5_title', content: "Artist Development" }, { id: 's5_price', content: "Inquire for Pricing" }, { id: 's5_desc', content: "Guidance on sound, image, and career strategy. Build a foundation that lasts beyond a single release." },
+            { id: 's6_title', content: "Sync Licensing" }, { id: 's6_price', content: "Custom Quotes" }, { id: 's6_desc', content: "License original music for film, TV, commercials, and streaming content. Catalog of 50+ tracks available." },
             { id: 'about_head', content: "Who is Cameo Holliday?" },
             { id: 'about_body', content: defaultAboutBody },
             { id: 'music_head', content: "Bliss — \"Incredible\"" },
@@ -559,6 +578,53 @@ if (factoryBtn) {
             msg.className = 'success';
             msg.textContent = 'Website restored to factory defaults. Reloading...';
             setTimeout(() => window.location.reload(), 1500);
+        }
+    });
+}
+
+
+// ==========================================
+// PRICING & SERVICES LOGIC
+// ==========================================
+const pricingKeys = [
+  'hero_sub', 'hero_title',
+  'b_t1_name', 'b_t1_price', 'b_t1_desc',
+  'b_t2_name', 'b_t2_price', 'b_t2_desc',
+  'b_t3_name', 'b_t3_price', 'b_t3_desc',
+  'b_t4_name', 'b_t4_price', 'b_t4_desc',
+  's1_title', 's1_price', 's1_desc',
+  's2_title', 's2_price', 's2_desc',
+  's3_title', 's3_price', 's3_desc',
+  's4_title', 's4_price', 's4_desc',
+  's5_title', 's5_price', 's5_desc',
+  's6_title', 's6_price', 's6_desc'
+];
+
+const pricingBtn = document.getElementById('publish-pricing-btn');
+if (pricingBtn) {
+    pricingBtn.addEventListener('click', async () => {
+        const msg = document.getElementById('pricing-msg');
+        pricingBtn.disabled = true;
+        pricingBtn.textContent = 'Saving...';
+        
+        let updates = [];
+        pricingKeys.forEach(k => {
+            const el = document.getElementById(k.replace(/_/g, '-'));
+            if (el) updates.push({ id: k, content: el.value });
+        });
+        
+        const { error } = await supabase.from('site_content').upsert(updates);
+        
+        pricingBtn.disabled = false;
+        pricingBtn.textContent = 'Save Changes';
+        
+        if (error) {
+            msg.className = 'error';
+            msg.textContent = error.message;
+        } else {
+            msg.className = 'success';
+            msg.textContent = 'Saved successfully!';
+            setTimeout(() => msg.textContent = '', 4000);
         }
     });
 }

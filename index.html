@@ -1958,7 +1958,31 @@
   }
 
 
-  // 4. Update Music Embed
+  
+    // 7. Hero, Beats, Services
+    if (db.hero_title) document.querySelector('.hero-content h1').innerHTML = db.hero_title;
+    if (db.hero_sub) document.querySelector('.hero-content p').innerHTML = db.hero_sub;
+    
+    const tiers = document.querySelectorAll('.tier-card');
+    if (tiers.length === 4) {
+      for (let i=1; i<=4; i++) {
+        if (db['b_t'+i+'_name']) tiers[i-1].querySelector('.tier-name').innerHTML = db['b_t'+i+'_name'];
+        if (db['b_t'+i+'_price']) tiers[i-1].querySelector('.tier-price').innerHTML = db['b_t'+i+'_price'];
+        if (db['b_t'+i+'_desc']) tiers[i-1].querySelector('.tier-desc').innerHTML = db['b_t'+i+'_desc'].replace(/\|/g, '<br>');
+      }
+    }
+    
+    const srvs = document.querySelectorAll('.service-card');
+    if (srvs.length === 6) {
+      for (let i=1; i<=6; i++) {
+        if (db['s'+i+'_title']) srvs[i-1].querySelector('h3').innerHTML = db['s'+i+'_title'];
+        if (db['s'+i+'_price']) srvs[i-1].querySelector('.service-price').innerHTML = db['s'+i+'_price'];
+        if (db['s'+i+'_desc']) srvs[i-1].querySelector('p').innerHTML = db['s'+i+'_desc'];
+      }
+    }
+
+
+    // 4. Update Music Embed
     const musicEmbedContainer = document.querySelector('.music-embed');
     if (musicEmbedContainer) {
       if (db.music_embed && db.music_embed.trim() !== '') {
