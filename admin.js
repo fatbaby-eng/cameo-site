@@ -511,3 +511,54 @@ document.querySelectorAll('.clear-img-btn').forEach(btn => {
         prev.style.display = 'none'; // hide preview
     });
 });
+
+
+// ==========================================
+// FACTORY RESET LOGIC
+// ==========================================
+const factoryBtn = document.getElementById('factory-reset-btn');
+if (factoryBtn) {
+    factoryBtn.addEventListener('click', async () => {
+        if (!confirm("Are you absolutely sure you want to Factory Reset the website? All custom text, images, and layout changes will be permanently deleted. This cannot be undone.")) return;
+        
+        factoryBtn.disabled = true;
+        factoryBtn.textContent = 'Resetting...';
+        
+        const defaults = [
+            { id: 'about_head', content: "Who is Cameo Holliday?" },
+            { id: 'about_body', content: defaultAboutBody },
+            { id: 'music_head', content: "Bliss — \"Incredible\"" },
+            { id: 'music_body', content: defaultMusicBody },
+            { id: 'music_embed', content: "" },
+            { id: 'stat1_num', content: "6,500+" },
+            { id: 'stat1_lbl', content: "Copies Sold" },
+            { id: 'stat2_num', content: "12+" },
+            { id: 'stat2_lbl', content: "Projects Released" },
+            { id: 'stat3_num', content: "4" },
+            { id: 'stat3_lbl', content: "Platforms" },
+            { id: 'desc_beats', content: "Preview, license, and instantly download premium instrumentals. Trap soul, west coast, R&B — crafted with intention." },
+            { id: 'desc_services', content: "From custom production to vocal writing and sync placement — let's create something that moves people." },
+            { id: 'desc_videos', content: "Music videos, live performances, studio sessions, and behind-the-scenes content." },
+            { id: 'desc_licensing', content: "License original music by Cameo Holliday for your next project. A growing catalog of soulful, cinematic tracks ready for placement." },
+            { id: 'desc_contact', content: "Whether you need a custom beat, vocal work, or want to license music for your project — I'm ready to build something great with you." }
+        ];
+        
+        toggles.forEach(t => defaults.push({ id: 'toggle_' + t, content: 'true' }));
+        images.forEach(img => defaults.push({ id: 'img_' + img.replace('-', '_'), content: '' }));
+        
+        const { error } = await supabase.from('site_content').upsert(defaults);
+        
+        factoryBtn.disabled = false;
+        factoryBtn.textContent = 'Factory Reset Website';
+        
+        const msg = document.getElementById('factory-reset-msg');
+        if (error) {
+            msg.className = 'error';
+            msg.textContent = error.message;
+        } else {
+            msg.className = 'success';
+            msg.textContent = 'Website restored to factory defaults. Reloading...';
+            setTimeout(() => window.location.reload(), 1500);
+        }
+    });
+}
