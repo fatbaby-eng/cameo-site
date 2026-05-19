@@ -411,12 +411,14 @@
           <div class="form-group">
             <label>Hero Background Image</label>
             <input type="file" id="file-hero" accept="image/*" class="file-input">
+            <button class="btn btn-small btn-danger clear-img-btn" data-target="img-hero" data-preview="preview-hero" style="margin-top: 10px; width: 100%; padding: 8px;">Clear & Use Default</button>
             <input type="hidden" id="img-hero">
             <img id="preview-hero" style="max-width: 100%; height: 100px; object-fit: cover; border-radius: 4px; display: none; margin-top: 10px; border: 1px solid var(--silver-faint);">
           </div>
           <div class="form-group">
             <label>About Section Portrait</label>
             <input type="file" id="file-about" accept="image/*" class="file-input">
+            <button class="btn btn-small btn-danger clear-img-btn" data-target="img-about" data-preview="preview-about" style="margin-top: 10px; width: 100%; padding: 8px;">Clear & Use Default</button>
             <input type="hidden" id="img-about">
             <img id="preview-about" style="max-width: 100%; height: 100px; object-fit: cover; border-radius: 4px; display: none; margin-top: 10px; border: 1px solid var(--silver-faint);">
           </div>
@@ -426,38 +428,74 @@
             <div class="form-group">
               <label>Gallery Image 1</label>
               <input type="file" id="file-gal-1" accept="image/*" class="file-input">
+            <button class="btn btn-small btn-danger clear-img-btn" data-target="img-gal-1" data-preview="preview-gal-1" style="margin-top: 10px; width: 100%; padding: 8px;">Clear & Use Default</button>
               <input type="hidden" id="img-gal-1">
               <img id="preview-gal-1" style="max-width: 100%; height: 100px; object-fit: cover; border-radius: 4px; display: none; margin-top: 10px; border: 1px solid var(--silver-faint);">
             </div>
             <div class="form-group">
               <label>Gallery Image 2</label>
               <input type="file" id="file-gal-2" accept="image/*" class="file-input">
+            <button class="btn btn-small btn-danger clear-img-btn" data-target="img-gal-2" data-preview="preview-gal-2" style="margin-top: 10px; width: 100%; padding: 8px;">Clear & Use Default</button>
               <input type="hidden" id="img-gal-2">
               <img id="preview-gal-2" style="max-width: 100%; height: 100px; object-fit: cover; border-radius: 4px; display: none; margin-top: 10px; border: 1px solid var(--silver-faint);">
             </div>
             <div class="form-group">
               <label>Gallery Image 3</label>
               <input type="file" id="file-gal-3" accept="image/*" class="file-input">
+            <button class="btn btn-small btn-danger clear-img-btn" data-target="img-gal-3" data-preview="preview-gal-3" style="margin-top: 10px; width: 100%; padding: 8px;">Clear & Use Default</button>
               <input type="hidden" id="img-gal-3">
               <img id="preview-gal-3" style="max-width: 100%; height: 100px; object-fit: cover; border-radius: 4px; display: none; margin-top: 10px; border: 1px solid var(--silver-faint);">
             </div>
             <div class="form-group">
               <label>Gallery Image 4</label>
               <input type="file" id="file-gal-4" accept="image/*" class="file-input">
+            <button class="btn btn-small btn-danger clear-img-btn" data-target="img-gal-4" data-preview="preview-gal-4" style="margin-top: 10px; width: 100%; padding: 8px;">Clear & Use Default</button>
               <input type="hidden" id="img-gal-4">
               <img id="preview-gal-4" style="max-width: 100%; height: 100px; object-fit: cover; border-radius: 4px; display: none; margin-top: 10px; border: 1px solid var(--silver-faint);">
             </div>
             <div class="form-group">
               <label>Gallery Image 5</label>
               <input type="file" id="file-gal-5" accept="image/*" class="file-input">
+            <button class="btn btn-small btn-danger clear-img-btn" data-target="img-gal-5" data-preview="preview-gal-5" style="margin-top: 10px; width: 100%; padding: 8px;">Clear & Use Default</button>
               <input type="hidden" id="img-gal-5">
               <img id="preview-gal-5" style="max-width: 100%; height: 100px; object-fit: cover; border-radius: 4px; display: none; margin-top: 10px; border: 1px solid var(--silver-faint);">
             </div>
             <div class="form-group">
               <label>Gallery Image 6</label>
               <input type="file" id="file-gal-6" accept="image/*" class="file-input">
+            <button class="btn btn-small btn-danger clear-img-btn" data-target="img-gal-6" data-preview="preview-gal-6" style="margin-top: 10px; width: 100%; padding: 8px;">Clear & Use Default</button>
               <input type="hidden" id="img-gal-6">
               <img id="preview-gal-6" style="max-width: 100%; height: 100px; object-fit: cover; border-radius: 4px; display: none; margin-top: 10px; border: 1px solid var(--silver-faint);">
+            </div>
+          </div>
+
+          
+          <h2 style="margin-top: 60px; border-top: 1px solid var(--silver-faint); padding-top: 40px;">Default Image Library</h2>
+          <p style="font-size: 13px; color: var(--silver); margin-bottom: 20px;">These are the original built-in site images. If you click "Clear & Use Default" on any field above, the site will revert to these.</p>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; margin-bottom: 40px;">
+            <div style="text-align: center; background: var(--black-elevated); padding: 10px; border-radius: 8px; border: 1px solid var(--silver-faint);">
+              <img src="images/performance-red.jpg" style="width: 100%; height: 100px; object-fit: cover; border-radius: 4px; margin-bottom: 8px;">
+              <span style="font-size: 11px; color: var(--silver-dim); word-break: break-all;">performance-red.jpg</span>
+            </div>
+            <div style="text-align: center; background: var(--black-elevated); padding: 10px; border-radius: 8px; border: 1px solid var(--silver-faint);">
+              <img src="images/portrait-suit.jpg" style="width: 100%; height: 100px; object-fit: cover; border-radius: 4px; margin-bottom: 8px;">
+              <span style="font-size: 11px; color: var(--silver-dim); word-break: break-all;">portrait-suit.jpg</span>
+            </div>
+            <div style="text-align: center; background: var(--black-elevated); padding: 10px; border-radius: 8px; border: 1px solid var(--silver-faint);">
+              <img src="images/studio-recording.jpg" style="width: 100%; height: 100px; object-fit: cover; border-radius: 4px; margin-bottom: 8px;">
+              <span style="font-size: 11px; color: var(--silver-dim); word-break: break-all;">studio-recording.jpg</span>
+            </div>
+            <div style="text-align: center; background: var(--black-elevated); padding: 10px; border-radius: 8px; border: 1px solid var(--silver-faint);">
+              <img src="images/casual-beanie.jpg" style="width: 100%; height: 100px; object-fit: cover; border-radius: 4px; margin-bottom: 8px;">
+              <span style="font-size: 11px; color: var(--silver-dim); word-break: break-all;">casual-beanie.jpg</span>
+            </div>
+            <div style="text-align: center; background: var(--black-elevated); padding: 10px; border-radius: 8px; border: 1px solid var(--silver-faint);">
+              <img src="images/steps-hat.jpg" style="width: 100%; height: 100px; object-fit: cover; border-radius: 4px; margin-bottom: 8px;">
+              <span style="font-size: 11px; color: var(--silver-dim); word-break: break-all;">steps-hat.jpg</span>
+            </div>
+            <div style="text-align: center; background: var(--black-elevated); padding: 10px; border-radius: 8px; border: 1px solid var(--silver-faint);">
+              <img src="images/live-red-jacket.jpg" style="width: 100%; height: 100px; object-fit: cover; border-radius: 4px; margin-bottom: 8px;">
+              <span style="font-size: 11px; color: var(--silver-dim); word-break: break-all;">live-red-jacket.jpg</span>
             </div>
           </div>
 

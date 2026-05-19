@@ -493,3 +493,21 @@ images.forEach(img => {
         fileInput.addEventListener('change', (e) => handleImageUpload(e, 'img-' + img, 'preview-' + img));
     }
 });
+
+
+// Clear Image Logic
+document.querySelectorAll('.clear-img-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        const targetId = e.target.getAttribute('data-target');
+        const prevId = e.target.getAttribute('data-preview');
+        
+        document.getElementById(targetId).value = ''; // clear hidden input
+        
+        const fileInput = document.getElementById(targetId.replace('img-', 'file-'));
+        if(fileInput) fileInput.value = ''; // clear file input UI
+        
+        const prev = document.getElementById(prevId);
+        prev.src = '';
+        prev.style.display = 'none'; // hide preview
+    });
+});
