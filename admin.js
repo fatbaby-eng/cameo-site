@@ -342,12 +342,19 @@ async function loadCopy() {
                 el.checked = (item.content !== 'false');
             }
         });
+
         images.forEach(img => {
             const el = document.getElementById('img-' + img);
+            const prev = document.getElementById('preview-' + img);
             if (el && item.id === 'img_' + img.replace('-', '_')) {
                 el.value = item.content || '';
+                if (item.content && prev) {
+                    prev.src = item.content;
+                    prev.style.display = 'block';
+                }
             }
         });
+
 
     });
     
@@ -440,3 +447,49 @@ if (layoutBtn) {
         }
     });
 }
+
+
+// Handle Image Uploads & Compression
+function handleImageUpload(e, hiddenId, previewId) {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const img = new Image();
+        img.onload = function() {
+            // Compress using canvas
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 1200;
+            let width = img.width;
+            let height = img.height;
+            
+            if (width > MAX_WIDTH) {
+                height = Math.round((height * MAX_WIDTH) / width);
+                width = MAX_WIDTH;
+            }
+            
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+            
+            document.getElementById(hiddenId).value = dataUrl;
+            
+            const prev = document.getElementById(previewId);
+            prev.src = dataUrl;
+            prev.style.display = 'block';
+        };
+        img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+
+images.forEach(img => {
+    const fileInput = document.getElementById('file-' + img);
+    if (fileInput) {
+        fileInput.addEventListener('change', (e) => handleImageUpload(e, 'img-' + img, 'preview-' + img));
+    }
+});

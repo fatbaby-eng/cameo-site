@@ -95,7 +95,17 @@
           pointer-events: none; /* disable clicks in editor */
         }
 
-      </style>
+      
+        .file-input {
+          width: 100%;
+          padding: 10px;
+          background: var(--black);
+          border: 1px dashed var(--silver-dim);
+          color: var(--silver);
+          border-radius: 4px;
+          cursor: pointer;
+        }
+</style>
 </head>
 <body>
 
@@ -394,41 +404,60 @@
             </label>
           </div>
 
+          
           <h2>2. Site Images</h2>
-          <p style="font-size: 13px; color: var(--silver); margin-bottom: 20px;">To update an image, paste a direct URL to the image file (e.g. Imgur link). Leave blank to keep the default image.</p>
+          <p style="font-size: 13px; color: var(--silver); margin-bottom: 20px;">Click to upload an image from your device. The system will automatically compress and optimize it for the web.</p>
           
           <div class="form-group">
-            <label>Hero Background Image URL</label>
-            <input type="text" id="img-hero" placeholder="https://example.com/image.jpg">
+            <label>Hero Background Image</label>
+            <input type="file" id="file-hero" accept="image/*" class="file-input">
+            <input type="hidden" id="img-hero">
+            <img id="preview-hero" style="max-width: 100%; height: 100px; object-fit: cover; border-radius: 4px; display: none; margin-top: 10px; border: 1px solid var(--silver-faint);">
           </div>
           <div class="form-group">
-            <label>About Section Portrait URL</label>
-            <input type="text" id="img-about" placeholder="https://example.com/image.jpg">
+            <label>About Section Portrait</label>
+            <input type="file" id="file-about" accept="image/*" class="file-input">
+            <input type="hidden" id="img-about">
+            <img id="preview-about" style="max-width: 100%; height: 100px; object-fit: cover; border-radius: 4px; display: none; margin-top: 10px; border: 1px solid var(--silver-faint);">
           </div>
+          
+          <h3 style="margin-top: 30px; margin-bottom: 15px; color: var(--red); font-size: 16px;">Photo Gallery Images</h3>
           <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
             <div class="form-group">
-              <label>Gallery Image 1 URL</label>
-              <input type="text" id="img-gal-1" placeholder="URL...">
+              <label>Gallery Image 1</label>
+              <input type="file" id="file-gal-1" accept="image/*" class="file-input">
+              <input type="hidden" id="img-gal-1">
+              <img id="preview-gal-1" style="max-width: 100%; height: 100px; object-fit: cover; border-radius: 4px; display: none; margin-top: 10px; border: 1px solid var(--silver-faint);">
             </div>
             <div class="form-group">
-              <label>Gallery Image 2 URL</label>
-              <input type="text" id="img-gal-2" placeholder="URL...">
+              <label>Gallery Image 2</label>
+              <input type="file" id="file-gal-2" accept="image/*" class="file-input">
+              <input type="hidden" id="img-gal-2">
+              <img id="preview-gal-2" style="max-width: 100%; height: 100px; object-fit: cover; border-radius: 4px; display: none; margin-top: 10px; border: 1px solid var(--silver-faint);">
             </div>
             <div class="form-group">
-              <label>Gallery Image 3 URL</label>
-              <input type="text" id="img-gal-3" placeholder="URL...">
+              <label>Gallery Image 3</label>
+              <input type="file" id="file-gal-3" accept="image/*" class="file-input">
+              <input type="hidden" id="img-gal-3">
+              <img id="preview-gal-3" style="max-width: 100%; height: 100px; object-fit: cover; border-radius: 4px; display: none; margin-top: 10px; border: 1px solid var(--silver-faint);">
             </div>
             <div class="form-group">
-              <label>Gallery Image 4 URL</label>
-              <input type="text" id="img-gal-4" placeholder="URL...">
+              <label>Gallery Image 4</label>
+              <input type="file" id="file-gal-4" accept="image/*" class="file-input">
+              <input type="hidden" id="img-gal-4">
+              <img id="preview-gal-4" style="max-width: 100%; height: 100px; object-fit: cover; border-radius: 4px; display: none; margin-top: 10px; border: 1px solid var(--silver-faint);">
             </div>
             <div class="form-group">
-              <label>Gallery Image 5 URL</label>
-              <input type="text" id="img-gal-5" placeholder="URL...">
+              <label>Gallery Image 5</label>
+              <input type="file" id="file-gal-5" accept="image/*" class="file-input">
+              <input type="hidden" id="img-gal-5">
+              <img id="preview-gal-5" style="max-width: 100%; height: 100px; object-fit: cover; border-radius: 4px; display: none; margin-top: 10px; border: 1px solid var(--silver-faint);">
             </div>
             <div class="form-group">
-              <label>Gallery Image 6 URL</label>
-              <input type="text" id="img-gal-6" placeholder="URL...">
+              <label>Gallery Image 6</label>
+              <input type="file" id="file-gal-6" accept="image/*" class="file-input">
+              <input type="hidden" id="img-gal-6">
+              <img id="preview-gal-6" style="max-width: 100%; height: 100px; object-fit: cover; border-radius: 4px; display: none; margin-top: 10px; border: 1px solid var(--silver-faint);">
             </div>
           </div>
 
